@@ -119,7 +119,7 @@
         <div class="droite">
             <h1>Ligne 1</h1>
 
-            <div class="image-container" id="graphe-container">
+            <div class="image-container2" id="graphe-container">
 
                 {% if resultat %}
                     <img
@@ -135,194 +135,17 @@
                     >
                 {% endif %}
 
-                <!-- A1 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A1"
-                    style="left: 63px; top: 100px;"
-                    title="A1"
-                ></button>
-
-                <!-- A2 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A2"
-                    style="left: 160px; top: 100px;"
-                    title="A2"
-                ></button>
-
-                <!-- A3 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A3"
-                    style="left: 240px; top: 182px;"
-                    title="A3"
-                ></button>
-
-                <!-- A4 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A4"
-                    style="left: 317px; top: 250px;"
-                    title="A4"
-                ></button>
-
-                <!-- A5 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A5"
-                    style="left: 453px; top: 251px;"
-                    title="A5"
-                ></button>
-
-                <!-- A6 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A6"
-                    style="left: 565px; top: 163px;"
-                    title="A6"
-                ></button>
-
-                <!-- A7 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A7"
-                    style="left: 622px; top: 204px;"
-                    title="A7"
-                ></button>
-
-                <!-- A8 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="A8"
-                    style="left: 689px; top: 314px;"
-                    title="A8"
-                ></button>
-
-                <!-- B1 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="B1"
-                    style="left: 155px; top: 403px;"
-                    title="B1"
-                ></button>
-
-                <!-- B2 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="B2"
-                    style="left: 258px; top: 379px;"
-                    title="B2"
-                ></button>
-
-                <!-- B3 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="B3"
-                    style="left: 250px; top: 312px;"
-                    title="B3"
-                ></button>
-
-                <!-- B4 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="B4"
-                    style="left: 378px; top: 113px;"
-                    title="B4"
-                ></button>
-
-                <!-- B5 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="B5"
-                    style="left: 447px; top: 44px;"
-                    title="B5"
-                ></button>
-
-                <!-- B6 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="B6"
-                    style="left: 650px; top: 40px;"
-                    title="B6"
-                ></button>
-
-                <!-- C1 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C1"
-                    style="left: 59px; top: 195px;"
-                    title="C1"
-                ></button>
-
-                <!-- C2 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C2"
-                    style="left: 220px; top: 40px;"
-                    title="C2"
-                ></button>
-
-                <!-- C3 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C3"
-                    style="left: 325px; top: 38px;"
-                    title="C3"
-                ></button>
-
-                <!-- C4 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C4"
-                    style="left: 559px; top: 274px;"
-                    title="C4"
-                ></button>
-
-                <!-- C5 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C5"
-                    style="left: 559px; top: 376px;"
-                    title="C5"
-                ></button>
-
-                <!-- C6 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C6"
-                    style="left: 414px; top: 376px;"
-                    title="C6"
-                ></button>
-
-                <!-- C7 -->
-                <button
-                    type="button"
-                    class="arret"
-                    data-arret="C7"
-                    style="left: 155px; top: 290px;"
-                    title="C7"
-                ></button>
+                {% for nom, (x, y) in coordonnees.items() %}
+                
+                    <button
+                        type="button"
+                        class="arret"
+                        data-arret="{{ nom }}"
+                        data-x="{{ x }}"
+                        data-y="{{ y }}"
+                        title="{{ nom }}"
+                    ></button>
+                {% endfor %}
 
             </div>
 
@@ -350,12 +173,58 @@
 </html>
 
 <script>
+
 function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("collapsed");
 }
 
 
+
+const image = document.getElementById("graphe");
 const arrets = document.querySelectorAll(".arret");
+
+function positionnerArrets() {
+
+    const largeurAffichee = image.getBoundingClientRect().width;
+    const hauteurAffichee = image.getBoundingClientRect().height;
+
+    const largeurOriginale = image.naturalWidth;
+    const hauteurOriginale = image.naturalHeight;
+
+    if (
+        largeurOriginale === 0 ||
+        hauteurOriginale === 0 ||
+        largeurAffichee === 0 ||
+        hauteurAffichee === 0
+    ) {
+        return;
+    }
+
+    arrets.forEach(arret => {
+
+        const x = Number(arret.dataset.x);
+        const y = Number(arret.dataset.y);
+
+        const xAffiche = x * largeurAffichee / largeurOriginale;
+        const yAffiche = y * hauteurAffichee / hauteurOriginale;
+
+        arret.style.left = `${xAffiche}px`;
+        arret.style.top = `${yAffiche}px`;
+    });
+}
+
+
+if (image.complete) {
+    positionnerArrets();
+} else {
+    image.addEventListener("load", positionnerArrets);
+}
+
+
+window.addEventListener("resize", positionnerArrets);
+
+
+
 const selectDepart = document.getElementById("depart");
 const selectArrivee = document.getElementById("arrivee");
 const formulaire = document.querySelector(".itineraire-form");
@@ -382,11 +251,15 @@ arrets.forEach(arret => {
             return;
         }
 
+
         if (!arriveeSelectionnee) {
 
-            
             if (nomArret === selectDepart.value) {
-                alert("L'arrêt de départ et l'arrêt d'arrivée doivent être différents.");
+
+                alert(
+                    "L'arrêt de départ et l'arrêt d'arrivée doivent être différents."
+                );
+
                 return;
             }
 
@@ -398,10 +271,11 @@ arrets.forEach(arret => {
 
             console.log("Arrivée :", nomArret);
 
-            
             formulaire.submit();
         }
+
     });
+
 });
 
 </script>

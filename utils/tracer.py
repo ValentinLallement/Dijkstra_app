@@ -42,8 +42,11 @@ def tracer(liste_points):
     # Points supplémentaires uniquement pour les 3 cassures
     points_intermediaires = {
         (coordonnees["A2"], coordonnees["A3"]): (160, 180),
+        (coordonnees["A3"], coordonnees["A2"]): (160, 180),
         (coordonnees["A5"], coordonnees["A6"]): (455, 168),
-        (coordonnees["A6"], coordonnees["A7"]): (565, 205)
+        (coordonnees["A6"], coordonnees["A7"]): (565, 205),
+        (coordonnees["A6"], coordonnees["A5"]): (455, 168),
+        (coordonnees["A7"], coordonnees["A6"]): (565, 205)
 
     
     }

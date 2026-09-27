@@ -2,7 +2,7 @@ from fastapi import FastAPI, APIRouter,Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from utils.dijkstra import chemin_plus_court,G1 ,get_temps_total, convertir_noms_en_int
-from utils.tracer import tracer, get_coordinates
+from utils.tracer import tracer, get_coordinates,coordonnees
 
 api_router = APIRouter()
 
@@ -47,7 +47,7 @@ def itineraire(
             "arrivee": arrivee,
             "temps_total": temps if resultat else None,
             "image": "/static/images/resultat.png",
-            "coordonnees": get_coordinates(resultat) if resultat else None
+            "coordonnees": coordonnees
 
         }
     )

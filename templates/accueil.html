@@ -15,10 +15,13 @@
 
 <body>
 
-    <h1>Bienvenue sur le réseau de bus</h1>
+    
     <div class="container">
+        <div class="titre">
+            <h1>Bienvenue sur le réseau de bus</h1>
+        </div>
         <div class="image-container">
-            <img src="{{ url_for('static', path='images/nancy-trolleybus.jpg') }}" alt="Nancy Trolleybus">
+            <img src="{{ url_for('static', path='images/nancy-trolleybus.jpg') }}" alt="Nancy Trolleybus" class="image_bus">
         </div>
         <div class="bouton-container">
             <a href="/api/itineraire">
