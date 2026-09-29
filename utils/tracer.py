@@ -23,9 +23,8 @@ coordonnees = {
     "C6": (414, 376),
     "C7": (155, 290),
 }
-
+#pyside6
 def get_coordinates(node_names):
-    print(node_names)
     
     return [coordonnees[name] for name in node_names]
 
@@ -34,12 +33,11 @@ from fastapi.responses import FileResponse
 
 
 def tracer(liste_points):
-    print("tracé !")
+    
 
     image = Image.open("static/images/Graphe.png").convert("RGBA")
     dessin = ImageDraw.Draw(image)
 
-    # Points supplémentaires uniquement pour les 3 cassures
     points_intermediaires = {
         (coordonnees["A2"], coordonnees["A3"]): (160, 180),
         (coordonnees["A3"], coordonnees["A2"]): (160, 180),
@@ -51,7 +49,6 @@ def tracer(liste_points):
     
     }
 
-    # Tracé du chemin
     for i in range(len(liste_points) - 1):
 
         point1 = liste_points[i]
