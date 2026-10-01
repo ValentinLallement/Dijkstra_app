@@ -23,20 +23,18 @@ coordonnees = {
     "C6": (414, 376),
     "C7": (155, 290),
 }
-#pyside6
 def get_coordinates(node_names):
     
     return [coordonnees[name] for name in node_names]
 
-from PIL import Image, ImageDraw
-from fastapi.responses import FileResponse
-
-
 def tracer(liste_points):
-    
 
-    image = Image.open("static/images/Graphe.png").convert("RGBA")
+    image = Image.open(
+        "static/images/Graphe.png"
+    ).convert("RGBA")
+
     dessin = ImageDraw.Draw(image)
+
 
     points_intermediaires = {
         (coordonnees["A2"], coordonnees["A3"]): (160, 180),
@@ -45,8 +43,6 @@ def tracer(liste_points):
         (coordonnees["A6"], coordonnees["A7"]): (565, 205),
         (coordonnees["A6"], coordonnees["A5"]): (455, 168),
         (coordonnees["A7"], coordonnees["A6"]): (565, 205)
-
-    
     }
 
     for i in range(len(liste_points) - 1):
@@ -54,10 +50,12 @@ def tracer(liste_points):
         point1 = liste_points[i]
         point2 = liste_points[i + 1]
 
-        
+
         if (point1, point2) in points_intermediaires:
 
-            point_intermediaire = points_intermediaires[(point1, point2)]
+            point_intermediaire = \
+                points_intermediaires[(point1, point2)]
+
 
             dessin.line(
                 [point1, point_intermediaire, point2],
@@ -66,6 +64,7 @@ def tracer(liste_points):
             )
 
         else:
+
             dessin.line(
                 [point1, point2],
                 fill="lightcoral",
@@ -74,25 +73,69 @@ def tracer(liste_points):
 
     x, y = liste_points[-1]
 
+
     pointeur = Image.open(
         "static/images/pointeur.png"
     ).convert("RGBA")
 
+
     taille = 40
+
+
     pointeur = pointeur.resize(
         (taille, taille),
         Image.Resampling.LANCZOS
     )
+
+
     position = (
         x - taille // 2,
         y - taille
     )
+
+
     image.paste(
         pointeur,
         position,
         pointeur
     )
 
-    image.save("static/images/resultat.png")
+    x_depart, y_depart = liste_points[0]
 
-    return FileResponse("static/images/resultat.png")
+
+    pieton = Image.open(
+        "static/images/pieton.png"
+    ).convert("RGBA")
+
+
+    taille_pieton = 40
+
+
+    pieton = pieton.resize(
+        (taille_pieton, taille_pieton),
+        Image.Resampling.LANCZOS
+    )
+
+
+    position_pieton = (
+        x_depart - taille_pieton // 2,
+        y_depart - taille_pieton
+    )
+
+
+    image.paste(
+        pieton,
+        position_pieton,
+        pieton
+    )
+
+
+    # Sauvegarde
+    image.save(
+        "static/images/resultat.png"
+    )
+
+
+    return FileResponse(
+        "static/images/resultat.png"
+    )

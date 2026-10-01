@@ -98,12 +98,24 @@ def dijkstra(G, s_init):
 def convertir_chemin_en_noms(chemin):
     noms = []
     for sommet in chemin:
-        noms.append(f"A{sommet + 1}" if sommet < 8 else f"B{sommet - 7}" if sommet < 14 else f"C{sommet - 13}")
+        if isinstance(sommet, str) and not sommet.isdigit():
+            noms.append(sommet)
+            continue
+
+        sommet = int(sommet)
+
+        if sommet < 8:
+            noms.append(f"A{sommet + 1}")
+        elif sommet < 14:
+            noms.append(f"B{sommet - 7}")
+        else:
+            noms.append(f"C{sommet - 13}")
+
     return noms
 
 def convertir_noms_en_int(noms):
     sommets = []
-    for nom in noms:
+    for nom in noms:    
         if nom.startswith("A"):
             sommets.append(int(nom[1:]) - 1)
         elif nom.startswith("B"):
@@ -114,9 +126,6 @@ def convertir_noms_en_int(noms):
     
 
 def chemin_plus_court(G,sommet1,sommet2):
-    a=convertir_noms_en_int([sommet1,sommet2])
-    sommet1=a[0]
-    sommet2=a[1]
     D=dijkstra(G,sommet1)
     i=sommet2
     chemin=[sommet2]
@@ -125,7 +134,6 @@ def chemin_plus_court(G,sommet1,sommet2):
         chemin.append(sommet)
         i=sommet
     chemin.reverse()
-    chemin = convertir_chemin_en_noms(chemin)
     return chemin
 
 
@@ -137,3 +145,32 @@ def get_temps_total(G, chemin):
         poids = G[sommet1][sommet2]
         temps_total += poids
     return temps_total
+
+
+def create_graphe(sommets, aretes):
+
+    noms_vers_int = {
+        sommet: i
+        for i, sommet in enumerate(sommets)
+    }
+
+    int_vers_noms = {
+        i: sommet
+        for i, sommet in enumerate(sommets)
+    }
+
+    graphe = [
+        [0 for _ in range(len(sommets))]
+        for _ in range(len(sommets))
+    ]
+
+    for arete in aretes:
+
+        depart = noms_vers_int[arete["depart"]]
+        arrivee = noms_vers_int[arete["arrivee"]]
+        poids = arete["poids"]
+
+        graphe[depart][arrivee] = poids
+        graphe[arrivee][depart] = poids
+
+    return graphe, noms_vers_int, int_vers_noms

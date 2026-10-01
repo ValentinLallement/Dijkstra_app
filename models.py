@@ -1,4 +1,4 @@
-from sqlalchemy import Integer,String,Column,Float
+from sqlalchemy import Integer,String,Column,Float,JSON
 from sqlalchemy.orm import Mapped
 from sqlalchemy.dialects.postgresql import ARRAY
 
@@ -12,3 +12,24 @@ class Chemin(Base):
     arrivee = Column(String, index=True)
     arrets = Column(ARRAY(String))
     temps_total = Column(Float)
+
+class Ligne(Base):
+    __tablename__ = "lignes"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    nom = Column(
+        String,
+        nullable=False,
+        index=True
+    )
+
+    sommets = Column(
+        JSON,
+        nullable=False
+    )
+
+    aretes = Column(
+        JSON,
+        nullable=False
+    )
